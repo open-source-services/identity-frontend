@@ -1,14 +1,6 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html,
 body {
@@ -39,4 +31,19 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+/* Fix cursor visibility in input fields */
+input,
+textarea {
+  caret-color: var(--foreground);
+}
+
+/* Ensure input text color is always visible */
+input::placeholder {
+  color: rgba(107, 114, 128, 0.7);
+}
+
+.dark input::placeholder {
+  color: rgba(156, 163, 175, 0.7);
 }
