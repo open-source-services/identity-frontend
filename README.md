@@ -1,4 +1,4 @@
-# Accounts Frontend
+# Identity Frontend
 
 A Next.js authentication service frontend designed for `accounts.mycompany.com`, providing centralized user authentication for multiple company products.
 
