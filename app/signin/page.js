@@ -8,7 +8,12 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { authAPI } from "@/lib/api";
 import { setTokens, getUserFromToken } from "@/lib/auth";
 import { useAuth } from "@/contexts/AuthContext";
-import { redirectToReturnUrl, addRedirectToRequest, getReturnUrl, setReturnUrl } from "@/lib/redirect";
+import {
+  redirectToReturnUrl,
+  addRedirectToRequest,
+  getReturnUrl,
+  setReturnUrl,
+} from "@/lib/redirect";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({
@@ -46,10 +51,13 @@ export default function SignIn() {
       // Add redirect URL to request if available
       const requestData = addRedirectToRequest(formData);
       const response = await authAPI.login(requestData);
-      
-      console.log('Login response:', response.data);
-      
-      if (response.data?.data?.tokens?.access_token && response.data?.data?.tokens?.refresh_token) {
+
+      console.log("Login response:", response.data);
+
+      if (
+        response.data?.data?.tokens?.access_token &&
+        response.data?.data?.tokens?.refresh_token
+      ) {
         const { access_token, refresh_token } = response.data.data.tokens;
 
         setTokens(access_token, refresh_token);
@@ -59,7 +67,10 @@ export default function SignIn() {
         // Check if backend provided a redirect URL
         const backendRedirectUrl = response.data?.data?.redirect_url;
         if (backendRedirectUrl) {
-          console.log('Redirecting to backend provided URL:', backendRedirectUrl);
+          console.log(
+            "Redirecting to backend provided URL:",
+            backendRedirectUrl
+          );
           window.location.href = backendRedirectUrl;
           return;
         }
@@ -69,19 +80,23 @@ export default function SignIn() {
           router.push("/profile");
         }
       } else {
-        throw new Error('Invalid response format: missing tokens');
+        throw new Error("Invalid response format: missing tokens");
       }
     } catch (err) {
-      console.error('Signin error:', err);
+      console.error("Signin error:", err);
       if (err.response) {
         // Server responded with error status
-        setError(err.response.data?.error || err.response.data?.message || `Server error: ${err.response.status}`);
+        setError(
+          err.response.data?.error ||
+            err.response.data?.message ||
+            `Server error: ${err.response.status}`
+        );
       } else if (err.request) {
         // Network error
-        setError('Network error: Could not connect to server');
+        setError("Network error: Could not connect to server");
       } else {
         // Other error
-        setError(err.message || 'Sign in failed');
+        setError(err.message || "Sign in failed");
       }
     } finally {
       setLoading(false);
@@ -91,7 +106,7 @@ export default function SignIn() {
   const handleOAuthLogin = async (provider) => {
     try {
       const response = await authAPI.getOAuthURL(provider);
-      console.log('OAuth response:', response.data);
+      console.log("OAuth response:", response.data);
       const authUrl = response.data.auth_url;
       if (authUrl) {
         window.location.href = authUrl;
@@ -99,7 +114,7 @@ export default function SignIn() {
         setError(`${provider} OAuth not configured`);
       }
     } catch (err) {
-      console.error('OAuth error:', err);
+      console.error("OAuth error:", err);
       setError(`${provider} sign in failed`);
     }
   };
@@ -108,9 +123,7 @@ export default function SignIn() {
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-primary mb-2">
-            Sharan Industries
-          </h1>
+          <h1 className="text-2xl font-bold text-primary mb-2">Company Name</h1>
           <h2 className="text-3xl font-bold tracking-tight text-foreground">
             Sign in to your account
           </h2>

@@ -68,7 +68,7 @@ export default function OAuthCallback() {
   }, [processed, searchParams, router, login]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 via-blue-50 to-indigo-50">
       <div className="max-w-md w-full mx-auto">
         <div className="bg-white shadow-xl rounded-lg p-8 text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-blue-500 mx-auto mb-4"></div>

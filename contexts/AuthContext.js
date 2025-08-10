@@ -1,8 +1,14 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { isAuthenticated, getUserFromToken, clearTokens } from '@/lib/auth';
-import { authAPI } from '@/lib/api';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
+import { isAuthenticated, getUserFromToken, clearTokens } from "@/lib/auth";
+import { authAPI } from "@/lib/api";
 
 const AuthContext = createContext({});
 
@@ -15,10 +21,10 @@ export function AuthProvider({ children }) {
       try {
         if (isAuthenticated()) {
           const userData = getUserFromToken();
-          
+
           // Set user first to prevent redirect
           setUser(userData);
-          
+
           // Optional: Validate token with backend (commented out for now)
           // This validation happens on API calls anyway via the interceptor
           /*
@@ -34,7 +40,7 @@ export function AuthProvider({ children }) {
           */
         }
       } catch (error) {
-        console.error('Auth initialization failed:', error);
+        console.error("Auth initialization failed:", error);
         clearTokens();
         setUser(null);
       } finally {
@@ -53,7 +59,7 @@ export function AuthProvider({ children }) {
     try {
       await authAPI.logout();
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
     } finally {
       clearTokens();
       setUser(null);
@@ -68,17 +74,13 @@ export function AuthProvider({ children }) {
     isAuthenticated: !!user,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
